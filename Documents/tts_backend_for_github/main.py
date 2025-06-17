@@ -45,7 +45,4 @@ def generate_audio(req: TTSRequest):
 
     response = requests.post(url, headers=headers, json=payload)
     if response.status_code != 200:
-        raise HTTPException(status_code=response.status_code, detail="Failed to generate audio.")
-
-    return StreamingResponse(BytesIO(response.content), media_type="audio/mpeg")
-
+        raise HTTPException(status_code_
