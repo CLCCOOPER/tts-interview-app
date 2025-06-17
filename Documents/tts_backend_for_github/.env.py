@@ -1,0 +1,2 @@
+ELEVEN_API_KEY=sk-your-real-api-key-here
+ELEVEN_API_KEY=sk_c749948c35d5d1db8187a2436297ede88ee74fffaf153443
