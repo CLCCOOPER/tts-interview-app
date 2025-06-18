@@ -1,7 +1,7 @@
-# Use an official Python runtime as a parent image
+# Use official Python runtime
 FROM python:3.11-slim
 
-# Set environment variables
+# Set env variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
@@ -12,11 +12,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project files
+# Copy app files
 COPY . .
 
-# Expose the port
+# Expose port
 EXPOSE 10000
 
-# Run the app with Uvicorn
+# Run the FastAPI app
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "10000"]
