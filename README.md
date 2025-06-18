@@ -1,0 +1,65 @@
+from pathlib import Path
+
+# HTML content
+html_content = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>TTS Demo</title>
+  <style>
+    body{font-family:sans-serif;max-width:480px;margin:3rem auto}
+    input,button,select{font-size:1rem;padding:.4rem}
+  </style>
+</head>
+<body>
+  <h1>Text-to-Speech Demo</h1>
+
+  <label>
+    Voice
+    <select id="voice">
+      <option value="default">Default</option>
+      <option value="Aria">Aria</option>
+      <option value="Sarah">Sarah</option>
+      <option value="George">George</option>
+    </select>
+  </label>
+
+  <br /><br />
+
+  <textarea id="text" rows="4" style="width:100%">Hello world!</textarea><br /><br />
+
+  <button id="play">🔊 Play Audio</button>
+
+  <script>
+    const BACKEND_URL = "https://YOUR-RENDER-URL.onrender.com/generate-audio"; // ← change me!
+
+    document.getElementById("play").onclick = async () => {
+      const text = document.getElementById("text").value;
+      const voice = document.getElementById("voice").value || "default";
+
+      const res = await fetch(BACKEND_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, voice_name: voice })
+      });
+
+      if (!res.ok) {
+        alert("Error: " + res.status);
+        return;
+      }
+
+      const blob = await res.blob();
+      const audio = new Audio(URL.createObjectURL(blob));
+      audio.play();
+    };
+  </script>
+</body>
+</html>
+"""
+
+# Write to HTML file
+output_path = Path("/mnt/data/tts_demo.html")
+output_path.write_text(html_content)
+
+output_path.name
