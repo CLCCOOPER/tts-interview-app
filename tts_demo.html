@@ -1,4 +1,5 @@
-
+# Define the updated HTML content with the correct backend URL
+html_content = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,5 +52,14 @@
       audio.play();
     };
   </script>
+</body>
+</html>
+"""
+
+# Save the HTML content to a file
+html_path = Path("/mnt/data/tts_demo.html")
+html_path.write_text(html_content)
+
+html_path.name
 </body>
 </html>
