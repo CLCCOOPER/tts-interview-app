@@ -36,7 +36,7 @@ html_content = """
       const text = document.getElementById("text").value;
       const voice = document.getElementById("voice").value || "default";
 
-      const res = await fetch(BACKEND_URL, {
+      const res = await fetch("https://tts-interview-app-1.onrender.com/generate-audio", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text, voice_name: voice })
