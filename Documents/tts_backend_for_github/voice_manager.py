@@ -1,23 +1,19 @@
+"""
+Very small helper that maps friendly names -> ElevenLabs voice_id.
+Feel free to extend the VOICE_MAP dictionary.
+"""
+from VOICE_ID import voices  # noqa: this is your JSON list
 
-# voice_manager.py
+# build simple lookup: key is lower-cased pretty name, value is voice_id
+VOICE_MAP = {v["name"].lower(): v["voice_id"] for v in voices}
 
-# Dictionary of voice options
-VOICE_OPTIONS = {
-    "default": "EXAVITQu4vr4xnSDxMaL",
-    "female_soft": "21m00Tcm4TlvDq8ikWAM", 
-    "male_deep": "pNInz6obpgDQGcFmaJgB",
-    "narrator": "AZnzlk1XvdvUeBnXmlld"
-}
+def get_voice_id(friendly: str | None) -> str:
+    """
+    Returns a valid ElevenLabs voice_id.
+    If friendly is None or unrecognised, default to the first voice.
+    """
+    if not friendly:
+        return voices[0]["voice_id"]
 
-def get_voice_id(voice_name: str = "default") -> str:
-    """
-    Returns the voice ID for the given voice name.
-    Defaults to the 'default' voice ID if name not found.
-    """
-    return VOICE_OPTIONS.get(voice_name, VOICE_OPTIONS["default"])
-
-def list_available_voices() -> list:
-    """
-    Returns a list of available voice names.
-    """
-    return list(VOICE_OPTIONS.keys())
+    key = friendly.lower()
+    return VOICE_MAP.get(key, voices[0]["voice_id"])
