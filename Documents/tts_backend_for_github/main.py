@@ -1,26 +1,10 @@
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-import requests, os
-from dotenv import load_dotenv
-from fastapi.responses import StreamingResponse
-from io import BytesIO
-from VOICE_ID import VOICE_ID  # importing the voice ID
-
-load_dotenv()
-app = FastAPI()
-
-ELEVEN_API_KEY = os.getenv("ELEVEN_API_KEY")
-
-class TTSRequest(BaseModel):
-    text: str
-
-@app.get("/")
-def read_root():
-    return {"message": "TTS API is live"}
+from voice_manager import get_voice_id
 
 @app.post("/generate-audio")
 def generate_audio(req: TTSRequest):
-    url = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}"
+    voice_id = get_voice_id("female_soft")  # You can pass any label from your voice_manager.py
+
+    url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
     headers = {
         "xi-api-key": ELEVEN_API_KEY,
         "Content-Type": "application/json",
