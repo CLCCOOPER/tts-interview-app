@@ -1,15 +1,15 @@
-import os, requests
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
+import requests, os
 from dotenv import load_dotenv
+from fastapi.responses import StreamingResponse
 from io import BytesIO
+from VOICE_ID import VOICE_ID  # importing the voice ID
 
 load_dotenv()
 app = FastAPI()
 
 ELEVEN_API_KEY = os.getenv("ELEVEN_API_KEY")
-VOICE_ID = "21m00Tcm4TlvDq8ikWAM"  # Add this if it's missing!
 
 class TTSRequest(BaseModel):
     text: str
@@ -29,14 +29,14 @@ def generate_audio(req: TTSRequest):
     payload = {
         "text": req.text,
         "model_id": "eleven_monolingual_v1",
-        "voice_settings": {
-            "stability": 0.5,
-            "similarity_boost": 0.5
-        }
+        "voice_settings": {"stability": 0.5, "similarity_boost": 0.5}
     }
 
     response = requests.post(url, headers=headers, json=payload)
     if response.status_code != 200:
-        raise HTTPException(status_code=response.status_code, detail="Failed to generate audio.")
+        raise HTTPException(
+            status_code=response.status_code,
+            detail="Failed to generate audio."
+        )
 
     return StreamingResponse(BytesIO(response.content), media_type="audio/mpeg")
